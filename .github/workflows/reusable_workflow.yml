@@ -2,10 +2,21 @@ name: Reusable Workflow
 
 on:
   workflow_call:
+   inputs:
+      languages:
+        description: "Optional input to set languages for reusable action. Supported values are: 'cpp', 'csharp', 'go', 'java', 'javascript', 'typescript', 'python', 'ruby'. To set multiple languages, use the same syntax as you can see in the default value."
+        required: false
+        type: string
+        default: "['python']"
 
 jobs:
   analyze:
+    name: Analyze
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
