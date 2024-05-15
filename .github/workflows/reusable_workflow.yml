@@ -4,8 +4,17 @@ on:
   workflow_call:
 
 jobs:
-  build:
+  analyze:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        exclude:
+          - os: macos-latest
+            python-version: "3.9"
+          - os: windows-latest
+            python-version: "3.10"
     
     steps:
       - name: Checkout repository
@@ -24,6 +33,10 @@ jobs:
       - name: Run tests
         shell: bash
         run: pytest
+
+      - name: Deploy to production
+        shell: bash
+        run: echo "Deploy the flask application..." 
 
 
     
